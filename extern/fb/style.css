@@ -1,0 +1,108 @@
+/* -------------------------------------------------------------- 
+  
+   Reset.css
+   * Resets default browser CSS styles.
+   
+   Original by Erik Meyer:
+   * meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
+   
+-------------------------------------------------------------- */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+}
+
+body { line-height: 1; color: #333; background: white; }
+
+/* Tables still need 'cellspacing="0"' in the markup. */
+table { border-collapse: separate; border-spacing: 0; }
+caption, th, td { text-align: left; font-weight: normal; }
+
+/* Remove possible quote marks (") from <q>, <blockquote>. */
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+
+/* Sawce Stuff */
+
+body { padding: 0; margin: 0; text-align: left; font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif; line-height: 1.5; font-size: 11px; }
+body { background: #fff url(/img/top_bg.png) repeat-x; }
+
+div.panel h1 { font-size: 30px; color: #aaa; font-weight: normal; line-height: 35px; margin: 0; padding: 0; }
+div.panel h2 { font-size: 14px; color: #999; font-weight: bold; line-height: 20px; }
+div.panel { padding-bottom: 15px; }
+
+div.clear { clear: both; }
+
+#top { height: 65px; display: block; padding: 0 20px; }
+#top div.logo img { padding-right: 25px; float: left; }
+
+#right { float: right; width: 170px; clear: right; }
+#right h3 { border-bottom: 1px solid; font-size: 11px; font-weight: bold; line-height: 12px; padding: 0; margin: 25px 0 0 0; }
+#right ul { list-style-type: none; margin: 0 0 10px 0; padding: 0; }
+#right ul li { padding: 5px; border-bottom: 1px solid #ccc; }
+#right p { font-weight: normal; line-height: 18px; padding: 0; margin: 10px 0; text-align: left; }
+#right ul li a:hover { border-bottom: 1px dotted #333; }
+
+#focus { background: #ddd url(/img/drop_ccc.png) repeat-x; display: block; color: #333; padding: 30px 20px; }
+#footer { background: #fff url(/img/drop_fff.png) repeat-x; display: block; color: #999; padding: 30px 20px; }
+
+#focus_content { margin-right: 190px; }
+
+#focus a { color: #303030; text-decoration: none; }
+#focus a:hover { color: #222; }
+div.rc_tb div.rc_c p a, div.single p a {border-bottom: 1px dotted #303030; }
+div.rc_tb div.rc_c p a:hover, div.single p a:hover {border-bottom: 1px dotted #222; }
+
+div.rc_tb { margin-bottom: 20px; }
+div.rc_tb div.rc_t, div.rc_tb div.rc_b { background: none; margin: 0; padding: 0; line-height: 0; }
+div.rc_tb div.rc_t div { background: transparent url(x) scroll left top no-repeat; margin: 0; padding: 0 0 0 10px; height: 10px; overflow: hidden; }
+div.rc_tb div.rc_t div div { background-position: right top; padding: 0 10px 0 0; height: 10px; overflow: hidden; line-height: 0px; }
+div.rc_tb div.rc_t div div div { background: none; padding: 0; margin: 0; }
+div.rc_tb div.rc_b div { background: transparent url(x) scroll left bottom no-repeat; padding: 0 0 0 10px; height: 10px; overflow: hidden; }
+div.rc_tb div.rc_b div div { background-position: right bottom; padding: 0px 10px 0 0; height: 10px; overflow: hidden; line-height: 0px; }
+div.rc_tb div.rc_b div div div { background: none; padding: 0; margin: 0; }
+div.rc_tb div.rc_c { padding: 5px 15px 5px 15px; background-image: none; line-height: 1.5; }
+div.rc_tb div.rc_c h3 { border-bottom: 1px solid; font-size: 11px; font-weight: bold; line-height: 12px; padding: 0; }
+div.rc_tb div.rc_c p { font-weight: normal; line-height: 18px; padding: 0; margin: 10px 0; text-align: left; }
+div.rc_ccc div.rc_t div, div.rc_ccc div.rc_b div { background-image: url(/img/rc_tbf_ccc_ddd.gif); }
+div.rc_ccc div.rc_c { background-color: #ccc; color: #555; }
+
+div.unit div.side { width: 150px; float: left; }
+div.unit div.side ul { list-style-type: none; border-top: 1px solid #ccc; margin: 0; padding: 0; }
+div.unit div.side ul li { padding: 5px; border-bottom: 1px solid #ccc; }
+div.unit div.full { margin-left: 170px; font-size: 13px; }
+div.unit div.full h3 { margin: 0; padding: 3px; }
+div.unit div.full div.bot { padding-top: 10px; font-size: 11px; }
+div.unit div.single { padding-bottom: 20px; }
+div.unit div.side ul li a:hover { border-bottom: 1px dotted #333; }
+
+div.unit textarea { width: 95%; }
+div.unit p { margin: 10px 0; }
+
+div.navigation { padding: 10px 0; }
+div.alignleft { float: left; }
+div.alignright { float: right; }
+
+#footer div.copy { float: left; }
+
+a.beta { padding: 0 0 0 10px; height: 20px; text-decoration: none; float: right; display: inline; background: transparent url(x) no-repeat; cursor: pointer; }
+a.beta span { padding: 5px 55px 5px 5px; height: 10px; line-height: 10px; display: block; float: left; font-size: 10px; font-weight: bold; background: transparent url(x) scroll right bottom no-repeat; cursor: pointer; }
+
+#focus a.beta, #focus a.beta span { background-image: url(/img/rbtn_999_ddd.gif); color: #fff; }
+#focus a.beta:hover, #focus a.beta:hover span { background-image: url(/img/rbtn_666_ddd.gif); color: #fff; } 
+
+#footer a.beta, #footer a.beta span { background-image: url(/img/rbtn_ccc_fff.gif); color: #666; }
+#footer a.beta:hover, #footer a.beta:hover span { background-image: url(/img/rbtn_999_fff.gif); color: #fff; }

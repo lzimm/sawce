@@ -1,0 +1,32 @@
+* { margin: 0; padding: 0 }
+body { padding: 0px; }
+body { background-color: #333; font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Verdana,Arial,sans-serif; font-size: 11px; line-height: 18px; color: #999; }
+
+a img { border: none; }
+
+#sawcehead { height: 24px; background-color: #222; position: relative; }
+#sawcelogo { padding: 5px; position: absolute; top: 0; left: 0; width: 75px; background-color: #000; }
+#sawcebody { border: 5px solid #222; }
+
+div.song { border-top: 5px solid #222; padding: 0; }
+div.song_hover { background-color: #666; cursor: pointer; }
+div.song_first { border-top: none; }
+div.song div.album { display: none; }
+div.song div.info { padding: 5px; }
+div.song div.info span.name { font-size: 12px; color: #ccc; }
+div.song div.info span.name span { display: none; }
+div.song div.info span.details { }
+div.song div.info span.details span { display: none; }
+div.song div.controls { display: none; }
+div.song div.controls a { color: #fff; text-decoration: none; float: left; display: block; font-weight: bold; font-size: 10px; line-height: 10px; padding: 3px 10px; margin-right: 1px; background-color: #222; }
+div.song div.controls a:hover { background-color: #666; }
+
+div.song_selected div.album { float: left; margin-right: 5px; display: block; }
+div.song_selected div.info { margin-left: 55px; }
+div.song_selected div.info span.name { font-size: 12px; color: #ccc; }
+div.song_selected div.info span.name span { display: inline; }
+div.song_selected div.info span.details { display: block; border-top: 1px solid #222; }
+div.song_selected div.info span.details span { display: inline; }
+div.song_selected div.controls { clear: both; border-top: 5px solid #222; display: block; background-color: #222; }
+
+div.clear { clear: both; }

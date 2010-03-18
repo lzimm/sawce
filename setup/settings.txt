@@ -1,0 +1,26 @@
+make writable:
+------------------------------
+/art
+/art_uploads
+/songs
+/song_uploads
+/pages/cache
+/zip_uploads
+/scripts
+
+add to php path:
+------------------------------
+/libs
+
+add to crontabs:
+------------------------------
+/cron/cache.php
+
+cert pass:
+------------------------------
+spread
+
+download from pecl:
+------------------------------  
+APC
+zip

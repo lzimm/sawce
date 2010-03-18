@@ -1,0 +1,1 @@
+﻿package {    public class swGlobal {        public static var vars:Object = new Object();		public static var funcs:Object = new Object();		public static var base:swBase;    }}

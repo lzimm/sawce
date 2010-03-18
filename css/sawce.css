@@ -1,0 +1,77 @@
+body { background-color: #55555F; font-family: Geneva, Arial, Helvetica, sans-serif; font-size: 13px/1.5; padding: 0; }
+
+div.clear { clear: both; float: none; }
+
+#container { min-width: 940px; }
+* html #container { border-left: 940px solid #55555F; margin-left: -940px; }
+
+#frame_shadow_2 { border: 1px solid #4c4c56; margin: 5px; }
+#frame_shadow_1 { border: 1px solid #44444F; }
+#frame { background: #ccc url(/img/frame_bg.png) repeat-x; border: 1px solid #3c3c46; }
+#frame #header { padding: 20px 30px; }
+#frame #header #logo { padding-top: 10px; }
+#frame #header #auth { float: right; display: block; }
+
+#frame #header #auth div.auth_bar { float: left; display: block; width: 284px; }
+#frame #header #auth div.auth_bar a { display: block; float: left; height: 38px; text-align: center; width: 48px; }
+#frame #header #auth div.auth_bar a span { padding-top: 38px; height: 0px; overflow: hidden; display: block; cursor: pointer; width: 40px; }
+#frame #header #auth div.auth_bar a span.notice { background: transparent url(/img/auth_bar_notice.png) no-repeat; }
+* html #frame #header #auth div.auth_bar a span.notice { background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/img/auth_bar_notice.png', sizingMethod='scale'); }
+
+#frame #header #auth div.auth_bar a.ab_cart { background: transparent url(/img/auth_bar_f1f1f1.gif) scroll -284px 0 no-repeat; padding-left: 6px; }
+#frame #header #auth div.auth_bar a.ab_msg { background: transparent url(/img/auth_bar_f1f1f1.gif) scroll -338px 0 no-repeat; }
+#frame #header #auth div.auth_bar a.ab_logout { background: transparent url(/img/auth_bar_f1f1f1.gif) scroll -386px 0 no-repeat; width: 182px; }
+#frame #header #auth div.auth_bar a.ab_cart:hover { background: transparent url(/img/auth_bar_f1f1f1.gif) scroll -284px -38px no-repeat; }
+#frame #header #auth div.auth_bar a.ab_msg:hover { background: transparent url(/img/auth_bar_f1f1f1.gif) scroll -338px -38px no-repeat; }
+#frame #header #auth div.auth_bar a.ab_logout:hover { background: transparent url(/img/auth_bar_f1f1f1.gif) scroll -386px -38px no-repeat; }
+#frame #header #auth div.auth_bar a.ab_login { background: transparent url(/img/auth_bar_f1f1f1.gif) scroll 0 0 no-repeat; width: 284px; }
+#frame #header #auth div.auth_bar a.ab_login:hover { background: transparent url(/img/auth_bar_f1f1f1.gif) scroll 0 -38px no-repeat; }
+
+#frame #inset { padding-left: 5px; }
+
+#frame #menubar { padding: 15px; background: #10100f url(/img/menubar_bg.jpg) no-repeat; border-bottom: 1px solid #333; border-top: 1px solid #060606; border-left: 1px solid #111; }
+#frame #menubar input { color: #999; background-color: #fff; border: 1px solid #999; margin: 0; padding: 3px; font-size: 10px; height: 14px; line-height: 14px; width: 360px; display: block; }
+
+#frame #menubar #navlinks { float: right; padding-right: 0px; }
+#frame #menubar #navlinks a { display: block; float: left; height: 19px; }
+#frame #menubar #navlinks a img { border: none; border-left: 4px solid #333; margin: 0; padding: 0; height: 17px; padding: 2px 35px 0px 10px; }
+#frame #menubar a#lnk_home:hover img, body.home a#lnk_home img { border-color: #CC0033; }
+#frame #menubar a#lnk_music:hover img, body.music a#lnk_music img { border-color: #3366FF; }
+#frame #menubar a#lnk_people:hover img, body.people a#lnk_people img { border-color: #FF6600; }
+#frame #menubar a#lnk_my:hover img, body.my a#lnk_my img { border-color: #FF3399; }
+
+#frame #content { background-color: #000; clear: both; float: none; }
+#frame .prop { height: 360px; }
+
+#frame #box { border-left: 1px solid #555; }
+#frame #mask { background: #333 url(/img/sidebar_bg.jpg) no-repeat; position: relative; width: 100%; float: left; clear: both; overflow: hidden; }
+#frame #mask #left { float: left; width: 200%; position: relative; left: 175px; border-left: 1px solid #262626; background-color: #000; }
+#frame #mask #left #bodywrap { float: right; position: relative; right: 175px; width: 50%; }
+#frame #mask #left #body { position: relative; overflow: hidden; right: 100%; color: #fff; margin-left: 175px; text-align: center; }
+#frame #mask #left #side { float: left; position: relative; overflow: hidden; right: 175px; width: 175px; }
+#frame #mask #left #body #heading { text-align: left; display: block; height: 20px; padding: 10px; background: #000; }
+#frame #mask #left #body #heading #heading_pad { border-bottom: 1px solid #111; padding: 5px 0px; }
+#frame #mask #left #body #heading #span { font-size: 10px; line-height: 10px; height: 10px; color: #666; background: #000 url(/img/trans_bar_111.gif) right top; }
+#frame #mask #left #body #heading #span span { display: block; float: left; padding-right: 25px; line-height: 10px; height: 10px; background-color: #000; }
+#frame #mask #left #body #heading #span span span { display: inline; float: none; padding: 0; }
+#frame #mask #left #body #main { width: 700px; margin: 0 auto; text-align: left; display: block; padding: 0 10px 20px 10px; }
+
+#frame #mask #left #side #sidemenu { padding: 1px 1px 1px 0px; font-size: 10px; color: #999; }
+#frame #mask #left #side #sidemenu ul { list-style-type: none; margin: 0; padding: 0; }
+#frame #mask #left #side #sidemenu ul strong { padding: 25px 15px 5px 15px; display: block; background-color: #444; font-weight: normal; }
+#frame #mask #left #side #sidemenu ul a { padding: 5px 15px; display: block; color: #fff; text-decoration: none; border-top: 1px solid #444; border-bottom: 1px solid #333; }
+#frame #mask #left #side #sidemenu ul a:hover { text-decoration: underline; }
+
+#frame #footbox { clear: both; padding: 15px; font-size: 11px; color: #666; border-top: 1px solid #eee; }
+
+div.albums { text-align: center; }
+div.albums h3 { display: block; padding: 5px; font-size: 14px; color: #666; border-bottom: 1px solid #111; margin-bottom: 5px; text-align: left; }
+div.albums div.album { width: 162px; background-color: #333; border: 2px solid #333; font-size: 11px; display: block; float: left; margin-right: 12px; }
+div.albums div.last_album { margin-right: 0; }
+div.albums div.album img { border: 1px solid #262626; }
+div.albums div.album div.desc { padding: 10px; text-align: center; }
+div.albums div.album div.desc strong { display: block; }
+
+#body h1 { display: block; margin: 0; padding: 30px 0px; font-size: 23px; color: #333; }
+
+div.artist_header { display: block; margin-bottom: 20px; }

@@ -1,0 +1,412 @@
+<?xml version="1.0"?>
+<mx:Application pageTitle="Spread Sawce" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:fx="net.sawce.ui.*" initialize="init()" layout="vertical"
+	backgroundColor="#222222" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0" 
+	horizontalScrollPolicy="off" verticalScrollPolicy="off" resize="resizeStacks(event.target as Application)">
+   
+    <mx:Script>
+        <![CDATA[
+        	import mx.controls.Image;
+        	import mx.containers.Canvas;
+        	import mx.core.Container;
+        	import mx.containers.Panel;
+        	import mx.containers.ViewStack;
+		    import mx.collections.ArrayCollection;
+		    import mx.rpc.events.ResultEvent;
+            import mx.controls.Alert;
+            import flash.utils.Timer;
+            import flash.events.TimerEvent;
+            import flash.media.Sound;
+            import flash.media.SoundLoaderContext;
+            import flash.media.SoundChannel;
+            import flash.media.SoundTransform;
+            import mx.core.SoundAsset;
+            
+           	[Embed(source="../logo_white.png")]
+       	 	[Bindable]
+         	private var sawceTitle:Class;
+         	
+         	[Embed(source="../cart.png")]
+       	 	[Bindable]
+         	private var cartIcon:Class;
+         	
+            [Bindable]
+            private var mp3Song:String = "";
+            [Bindable]
+            private var sndTransform:SoundTransform = new SoundTransform();
+            
+            [Bindable]
+            private var bChar: String = "<br>";
+
+	        private var _sound: Sound;
+	        private var _sc: SoundChannel;
+	        private var _isPlaying: int;
+	        private var _playtime: int;
+			private var _context:SoundLoaderContext;
+	
+			private var _urlLoader: URLLoader;
+			
+			private var _sawceUrl: String;
+			
+			private var _prevPos: Number;
+			private var _songID: Number;
+			
+			[Bindable]
+			private var _dp: ArrayCollection;
+			[Bindable]
+			private var _dp_c: Array;
+			
+			[Bindable]
+			private var selected: Number;
+			
+			[Bindable]
+			private var serviceURL: String;
+			
+			private var selectedStack: ViewStack;
+			
+			[Bindable]
+			private var cart: Array;
+			
+			private var _songUrl:String;
+			private var _profileUrl:String;
+			private var _checkoutUrl:String;
+			
+			[Bindable]
+			private var cartBtn_label:String;
+			
+			[Bindable]
+			private var _imgContext : LoaderContext;
+
+			private function init():void {
+				_sc = new SoundChannel();
+				_playtime = 0;
+				_isPlaying = 0;
+				
+				var voltransform: SoundTransform = _sc.soundTransform;
+	            voltransform.volume = 0.6;
+	            _sc.soundTransform = voltransform;
+				
+				_context = new SoundLoaderContext(1000, true);
+				_imgContext = new LoaderContext(true);
+				
+				_sawceUrl = "http://sawcesongs.s3.amazonaws.com/";
+				
+				_profileUrl = "http://delta.sawce.net/people/profile/";
+				_songUrl = "http://delta.sawce.net/music/song/";
+				_checkoutUrl = "http://delta.sawce.net/music/pack/";
+				
+				serviceURL = Application.application.parameters.user ? Application.application.parameters.user : 'lewis';
+				sawceService.send();
+				
+				selected = -1;
+				
+				_dp_c = new Array();
+				cart = new Array();
+			}
+			
+			private function loaded(event:ResultEvent):void {             	
+             	_dp = event.result.sawce.sw_song as ArrayCollection;
+             	
+             	for (var i:int = 0; i < _dp.length; i++) {
+             		var song:Object = _dp[i];
+             		
+             		_dp_c.push((song.sw_album_art == 'none') ? 
+										"http://sawceart.s3.amazonaws.com/default-50.gif" :
+										"http://sawceart.s3.amazonaws.com/" + song.sw_artist + "/" + song.sw_album + "-50." + song.sw_album_art);
+             	}
+			}
+
+			private function play(index:Number):void {
+				var song:Object = _dp[index];
+				_play(song.sw_artist, song.sw_song_id);
+				
+				selected = index;
+			}
+
+			private function _play(artist:Number, song:Number):void {
+				_sc.stop();
+				
+				var url: String = _sawceUrl + artist + "/" + song + ".mp3";
+
+				_songID = song;
+				_sound = new Sound();
+				_sound.load(new URLRequest(url), _context);
+				_sound.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+				_sc = _sound.play(_playtime);
+				_isPlaying = 1;
+				
+				_sc.addEventListener(Event.SOUND_COMPLETE, stop);
+        	}
+
+			private function stop():void {
+				_sc.stop();
+			}
+
+			private function _stop(e:Event):void {
+				_sc.stop();
+			}
+
+			private function ioErrorHandler(event: IOErrorEvent): void {
+	        
+			}
+			
+			private function handleOver(container:Container): void {
+				container.styleName = (container.parent == selectedStack) ? 'selectedHover' : 'songHover';
+			}
+			
+			private function handleOut(container:Container): void {
+				container.styleName = (container.parent == selectedStack) ? 'selectedIdle' : 'songIdle';
+			}
+			
+			private function handleClick(container:Container): void {				
+				var eCurrent:Number = (container.parent as ViewStack).selectedIndex;
+				var eStack:ViewStack = container.parent as ViewStack;
+				
+				if (eCurrent) {
+					selectedStack.selectedIndex = 0;
+					selectedStack = null;
+					stop();
+					
+					btnStack.selectedIndex = 0;
+				} else {
+					if (selectedStack != null) {
+						selectedStack.selectedIndex = 0;
+						selectedStack.selectedChild.styleName = 'songIdle';
+						
+						sizeStack(selectedStack);
+					}	
+					
+					selectedStack = container.parent as ViewStack;
+					selectedStack.selectedIndex = 1;
+					
+					play(parseInt(selectedStack.uid));
+					
+					btnStack.selectedIndex = 1;
+				}
+				
+				sizeStack(eStack);
+				
+				container.styleName = (container.parent == selectedStack) ? 'selectedHover' : 'songHover';
+				
+				btn_cart_label();
+			}
+			
+			private function sizeStack(stack:ViewStack):void {
+				stack.height = getHeight(stack.selectedChild as Canvas) + 6;
+				
+				sizeCanvas(stack);
+			}
+			
+			private function sizeCanvas(stack:ViewStack):void {
+				var height:Number = stack.parentApplication.height;		
+				stack.parentApplication.getChildAt(0).getChildAt(1).height = height - 50;
+			}
+			
+			private function getHeight(container:Canvas):Number {
+				var max:Number = 0;
+				for (var i:Number = 0; i < container.numChildren; i++) {
+					if ((container.getChildAt(i).height + container.getChildAt(i).y) > max)
+						max = (container.getChildAt(i).height + container.getChildAt(i).y);
+				}
+				return max + 5; // assuming 5px padding everywhere
+			}
+			
+			private function initStack(stack:ViewStack):void {
+				sizeStack(stack);
+			}
+			
+			private function resizeStacks(app:Application):void {
+				if (app.numChildren) {	
+					for (var i:Number = 0; i < ((app.getChildAt(0) as Canvas).getChildAt(1) as Panel).numChildren; i++) {
+						sizeStack(((app.getChildAt(0) as Canvas).getChildAt(1) as Panel).getChildAt(i) as ViewStack);
+					}
+				}
+			}
+			
+			private function btn_cart_label():void {
+				if (selectedStack != null) {
+					for (var i:Number = 0; i < cart.length; i++) {
+						if (cart[i] == _dp[selectedStack.uid].sw_song_id) {
+							cartBtn_label = "Remove from Cart";
+							
+							((selectedStack.getChildAt(0) as Canvas).getChildAt(2) as Image).visible = true;
+							((selectedStack.getChildAt(1) as Canvas).getChildAt(2) as Image).visible = true;
+							
+							((selectedStack.getChildAt(0) as Canvas).getChildAt(0) as Text).setStyle('paddingLeft', 20);
+							
+							return void;
+						}
+					}
+					cartBtn_label = "Add to Cart ($"+_dp[selectedStack.uid].sw_song_price+")";	
+					
+					if ((selectedStack.getChildAt(1) as Canvas).numChildren == 3) {
+						((selectedStack.getChildAt(0) as Canvas).getChildAt(2) as Image).visible = false;
+						((selectedStack.getChildAt(1) as Canvas).getChildAt(2) as Image).visible = false;
+					}
+					
+					((selectedStack.getChildAt(0) as Canvas).getChildAt(0) as Text).setStyle('paddingLeft', 0);		
+				}		
+			}
+			
+			private function btn_cart():void {
+				for (var i:Number = 0; i < cart.length; i++) {
+					if (cart[i] == _dp[selectedStack.uid].sw_song_id) {
+						cart = cart.filter(function(element:*, index:int, arr:Array):Boolean {
+							return (element != _dp[selectedStack.uid].sw_song_id);
+						});
+						
+						if (cart.length == 0) {
+							checkout_on.visible = false;
+							checkout_off.visible = false;
+						}
+						
+						btn_cart_label();
+						
+						return void;
+					}
+				}
+				
+				cart.push(_dp[selectedStack.uid].sw_song_id);
+				
+				btn_cart_label();
+				
+				checkout_on.visible = true;
+				checkout_off.visible = true;
+			}
+			
+			private function btn_checkout():void {
+				var ids:String = '';
+				for (var i:Number = 0; i < cart.length; i++) {
+					ids += cart[i] + ",";
+				}
+				ids = ids.slice(0, ids.length - 2);
+				
+				openURL(_checkoutUrl + ids + "/via/" + serviceURL);
+			}
+			
+			private function btn_explore():void {
+				openURL(_songUrl + _dp[selectedStack.uid].sw_song_id);
+			}
+			
+			private function btn_spread():void {
+				openURL(_profileUrl + serviceURL);
+			}
+			
+			private function openURL(url:String):void {
+				flash.net.navigateToURL(new URLRequest(url), "_blank");
+			}
+         ]]>
+    </mx:Script>
+    
+    <mx:Style>
+    	.selectedIdle {
+    		background-color: #777777;
+    		color: #ffffff;
+    		borderStyle: solid;
+    		borderThickness: 0;
+    		borderColor: #888888;
+    	}
+    	
+    	.selectedHover {
+    		background-color: #aaaaaa;
+    		color: #ffffff;
+    		borderStyle: solid;
+    		borderThickness: 0;
+    		borderColor: #bbbbbb;
+    	}
+    	
+    	.songIdle {
+    		background-color: #444444;
+    		color: #ffffff;
+    		borderStyle: solid;
+    		borderThickness: 0;
+    		borderColor: #555555;
+    		backgroundAlpha: 0.5;
+    		borderAlpha: 0.5;
+    	}
+    	
+    	.songHover {
+    		background-color: #777777;
+    		color: #ffffff;
+    		borderStyle: solid;
+    		borderThickness: 0;
+    		borderColor: #888888;
+    	}
+    	
+    	.myPanel {
+    		paddingTop: 5;
+    		paddingBottom: 5;
+    		paddingLeft: 5;
+    		paddingRight: 5;
+    		borderThicknessLeft: 5;
+    		borderThicknessBottom: 5;
+    		borderThicknessRight: 5;
+    		borderColor: #999999;
+    	}
+    	
+    	.myButton {
+    		color: #ffffff;
+    		fontSize: 9;
+    		cornerRadius: 0;
+    	}
+    </mx:Style>
+    
+    <mx:HTTPService id="sawceService" url="http://delta.sawce.net/xml:get/{serviceURL}" showBusyCursor="true" result="loaded(event)" />
+    
+    <mx:Canvas table height="100%" x="0" y="0" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+    <fx:Visualization id="vis" table height="100%" x="0" y="0" visible="true"/>
+    <mx:Panel table height="200" cornerRadius="0" titleIcon="{sawceTitle}" x="0" y="0" horizontalScrollPolicy="off" verticalScrollPolicy="on"
+    	styleName="myPanel" dropShadowEnabled="false" backgroundAlpha="0" verticalGap="3">
+    		        
+	 	<mx:Repeater id="myRep" dataProvider="{_dp}" x="0" y="0" height="100%">
+	    	<mx:ViewStack table height="33" uid="{myRep.currentIndex}" creationComplete="initStack(event.target as ViewStack);" 
+	    			verticalGap="0" paddingBottom="0" paddingTop="0">
+	    			
+	    		<mx:Canvas table styleName="songIdle" 
+	    				horizontalScrollPolicy="off" verticalScrollPolicy="off"
+	    				buttonMode="true" mouseChildren="false" 
+	    				mouseOver="handleOver(event.target as Container);" mouseOut="handleOut(event.target as Container);" 
+	    				click="handleClick(event.target as Container);" >    		
+		    		
+		    		<mx:Text top="5" left="5" right="55" text="{_dp.getItemAt(myRep.currentIndex).sw_song_name}" table />
+		    		<mx:Text top="5" right="5" text="${_dp.getItemAt(myRep.currentIndex).sw_song_price}" width="50" textAlign="right" />
+		    		<mx:Image top="0" left="0" source="{cartIcon}" width="20" height="20" visible="false" />
+	    		
+	    		</mx:Canvas>
+	    		
+	    		<mx:Canvas table styleName="selectedIdle" creationComplete="sizeStack(event.target.parent as ViewStack);"
+	    				horizontalScrollPolicy="off" verticalScrollPolicy="off"
+	    				buttonMode="true" mouseChildren="false" 
+	    				mouseOver="handleOver(event.target as Container);" mouseOut="handleOut(event.target as Container);" 
+	    				click="handleClick(event.target as Container);" >
+	    			
+	    			<mx:Image top="5" left="5" source="{_dp_c[myRep.currentIndex]}" width="50" height="50" loaderContext="{_imgContext}" />
+	    			<mx:Text top="5" left="60" right="5" table textAlign="left" selectable="false"
+	    				htmlText="{_dp.getItemAt(myRep.currentIndex).sw_song_name}{bChar}{_dp.getItemAt(myRep.currentIndex).sw_display_name}" />
+    				<mx:Image top="0" left="0" source="{cartIcon}" width="20" height="20" visible="false" />
+    		
+	    		</mx:Canvas>
+	    	
+	    	</mx:ViewStack>
+	    </mx:Repeater>
+	</mx:Panel>
+	
+	<mx:ViewStack id="btnStack" table height="50" left="0" bottom="0">
+		<mx:Canvas table height="100%" left="0" bottom="0" backgroundColor="#666666" backgroundAlpha="0.5">
+			<mx:Button label="Spread My Sawce" styleName="myButton" left="10" top="0" useHandCursor="true" buttonMode="true" themeColor="#666666"
+				click="btn_spread();" borderColor="#666666" fillAlphas="[1.0, 1.0]" fillColors="[#444444, #666666]" />
+			<mx:Button id="checkout_off" visible="false" label="Checkout" styleName="myButton" right="10" top="0" useHandCursor="true" buttonMode="true" themeColor="#666666"
+				click="btn_checkout();" borderColor="#666666" fillAlphas="[1.0, 1.0]" fillColors="[#444444, #666666]" />
+		</mx:Canvas>
+		<mx:Canvas table height="100%" left="0" bottom="0" backgroundColor="#666666" backgroundAlpha="0.5">
+			<mx:Button label="Explore" styleName="myButton" left="10" top="0" useHandCursor="true" buttonMode="true" themeColor="#666666"
+				click="btn_explore();" borderColor="#666666" fillAlphas="[1.0, 1.0]" fillColors="[#444444, #666666]" />
+			<mx:Button id="cartBtn" label="{cartBtn_label}" styleName="myButton" left="90" top="0" useHandCursor="true" buttonMode="true" themeColor="#666666"
+				click="btn_cart();" borderColor="#666666" fillAlphas="[1.0, 1.0]" fillColors="[#444444, #666666]" />
+			<mx:Button id="checkout_on" visible="false" label="Checkout" styleName="myButton" right="10" top="0" useHandCursor="true" buttonMode="true" themeColor="#666666"
+				click="btn_checkout();" borderColor="#666666" fillAlphas="[1.0, 1.0]" fillColors="[#444444, #666666]" />
+		</mx:Canvas>
+	</mx:ViewStack>
+	
+  	</mx:Canvas>
+  	
+</mx:Application>

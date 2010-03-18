@@ -1,0 +1,23 @@
+* { margin: 0; padding: 0 }
+body, html { height: 100%; }
+body { background-color: #333; font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Verdana,Arial,sans-serif; font-size: 11px; line-height: 18px; color: #fff; }
+* body, * html { overflow: auto; }
+
+a img { border: none; }
+
+#sawcebody { padding: 5px 0; }
+
+#sawcebody div.song { background-color: #444; padding: 4px; margin-bottom: 3px; }
+#sawcebody div.song div.album { width: 50px; height: 50px; float: left; }
+#sawcebody div.song div.album a img { border: 1px solid #666; }
+#sawcebody div.song div.album a:hover img { border: 1px solid #999; }
+#sawcebody div.song div.info { margin-left: 60px; }
+#sawcebody div.song span.name { font-size: 11px; color: #ccc; display: block; }
+#sawcebody div.song span.details { font-size: 10px; color: #999; display: block; }
+#sawcebody div.song span.details span { color: #666; }
+#sawcebody div.controls { font-size: 10px; margin-left: 60px; }
+#sawcebody div.controls a { color: #666; text-decoration: none; }
+#sawcebody div.controls a:hover { color: #999; text-decoration: none; }
+#sawcebody div.clear { clear: both; }
+
+a.disabled { filter: alpha(opacity:25); opacity: 0.25; }

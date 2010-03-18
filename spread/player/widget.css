@@ -1,0 +1,24 @@
+.status {
+	line-height: 18px;
+	color: #FFFFFF;
+}
+
+.status_name {
+	color: #CC99FF;
+}
+
+.subOn {
+	color: #CC99FF;
+}
+
+.mainOn {
+	color: #FFFFFF;
+}
+
+.subOff {
+	color: #999999;
+}
+
+.mainOff {
+	color: #666666;
+}
